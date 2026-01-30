@@ -1,6 +1,7 @@
 package com.taskinbox.v1.domain.model;
 
 import com.taskinbox.v1.domain.model.enumerations.Status;
+import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +29,7 @@ public class Task {
 
     private Status status;
 
+    @Nullable
     private List<String> tags;
 
     private Instant createdAt;
