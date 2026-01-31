@@ -3,11 +3,10 @@ package com.taskinbox.v1.domain.service;
 import com.taskinbox.v1.domain.model.Task;
 import com.taskinbox.v1.domain.model.enumerations.Status;
 import com.taskinbox.v1.domain.repo.TaskRepository;
-import com.taskinbox.v1.infra.dtos.RequestTask;
+import com.taskinbox.v1.infra.dtos.TaskRequest;
 import com.taskinbox.v1.infra.dtos.TaskResponse;
 import com.taskinbox.v1.mapper.TaskMapper;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +22,7 @@ public class TaskService {
 
 
     @Transactional
-    public TaskResponse create(RequestTask request) {
+    public TaskResponse create(TaskRequest request) {
 
         Task task = this.mapper.toEntity(request);
         task.setCreatedAt(Instant.now());

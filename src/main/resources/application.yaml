@@ -18,3 +18,13 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
+
+server:
+  port: 8085
+
+
+jwt:
+  public:
+    key: classpath:app.pub
+  private:
+    key: classpath:app.key

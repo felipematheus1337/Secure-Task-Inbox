@@ -1,9 +1,10 @@
 package com.taskinbox.v1.infra.controller;
 
 import com.taskinbox.v1.domain.service.TaskService;
-import com.taskinbox.v1.infra.dtos.RequestTask;
+import com.taskinbox.v1.infra.dtos.TaskRequest;
 import com.taskinbox.v1.infra.dtos.TaskResponse;
 import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,8 @@ public class TasksController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<TaskResponse> createTask(@Valid @RequestBody RequestTask request) {
+    public ResponseEntity<TaskResponse> createTask(@RequestHeader("x-id-task")
+            @Valid @RequestBody TaskRequest request) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(request));
 

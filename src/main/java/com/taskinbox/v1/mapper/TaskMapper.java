@@ -1,14 +1,33 @@
 package com.taskinbox.v1.mapper;
 
 import com.taskinbox.v1.domain.model.Task;
-import com.taskinbox.v1.infra.dtos.RequestTask;
+import com.taskinbox.v1.domain.model.enumerations.Status;
+import com.taskinbox.v1.infra.dtos.TaskRequest;
 import com.taskinbox.v1.infra.dtos.TaskResponse;
-import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface TaskMapper {
+@Component
+public class TaskMapper {
 
-    Task toEntity(RequestTask requestTask);
+    public TaskResponse entityToResponse(Task task) {
+        return TaskResponse.builder()
+                .id(task.getId())
+                .ownerId(task.getOwnerId())
+                .title(task.getTitle())
+                .status(task.getStatus())
+                .createdAt(task.getCreatedAt())
+                .updatedAt(task.getUpdatedAt())
+                .tags(task.getTags())
+                .description(task.getDescription())
+                .build();
+    }
 
-    TaskResponse entityToResponse(Task task);
+    public Task toEntity(TaskRequest request) {
+        return Task.builder()
+                .ownerId(request.ownerId())
+                .title(request.title())
+                .status(Status.valueOf(request.status()))
+                .tags(request.tags())
+                .build();
+    }
 }
