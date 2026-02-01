@@ -8,6 +8,7 @@ import com.taskinbox.v1.infra.dtos.TaskResponse;
 import com.taskinbox.v1.mapper.TaskMapper;
 import com.taskinbox.v1.support.errors.BusinessException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +35,7 @@ public class TaskService {
     }
 
 
+    @Cacheable("task-list")
     public List<TaskResponse> list() {
         return taskRepository.findAll()
                 .stream()

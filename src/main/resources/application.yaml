@@ -28,3 +28,10 @@ jwt:
     key: classpath:app.pub
   private:
     key: classpath:app.key
+
+
+
+async-config:
+  threadPoolSize: 40
+  threadPoolQueueSize: 100
+  threadPoolTimeoutSeconds: 30
