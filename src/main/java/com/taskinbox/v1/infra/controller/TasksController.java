@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,8 +23,8 @@ public class TasksController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<TaskResponse> createTask(@RequestHeader("x-id-task")
-            @Valid @RequestBody TaskRequest request) {
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public ResponseEntity<TaskResponse> createTask(@Valid @RequestBody TaskRequest request) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(request));
 
@@ -31,6 +32,7 @@ public class TasksController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<List<TaskResponse>> list() {
 
         return ResponseEntity.ok(service.list());
@@ -39,6 +41,7 @@ public class TasksController {
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Void> update(@PathVariable String id,
                                        @RequestParam("status") String status) {
 

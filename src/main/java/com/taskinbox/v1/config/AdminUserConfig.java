@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.taskinbox.v1.domain.model.User;
 
-import java.util.Set;
 
 @Configuration
 @RequiredArgsConstructor
@@ -21,7 +20,7 @@ public class AdminUserConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        var userAdmin = userRepository.findByEmail("test@mail.com");
+        var userAdmin = userRepository.findByMail("test@mail.com");
 
 
         userAdmin.ifPresentOrElse((user) -> {

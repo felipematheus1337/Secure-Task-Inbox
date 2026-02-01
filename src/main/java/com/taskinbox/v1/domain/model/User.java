@@ -2,6 +2,7 @@ package com.taskinbox.v1.domain.model;
 
 import com.taskinbox.v1.domain.model.enumerations.Role;
 import com.taskinbox.v1.infra.dtos.LoginRequest;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @NoArgsConstructor
 @Builder
 @Document(collection = "user")
+@AllArgsConstructor
 public class User {
 
     @Id

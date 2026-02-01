@@ -26,7 +26,7 @@ public class TokenService {
 
     public LoginResponse login(LoginRequest loginRequest) {
 
-        var user = userRepository.findByEmail(loginRequest.mail());
+        var user = userRepository.findByMail(loginRequest.mail());
 
         if (user.isEmpty() || !user.get().isLoginCorrect(loginRequest, bCryptPasswordEncoder)) {
             throw new BadCredentialsException("user or password is invalid.");
