@@ -6,5 +6,5 @@ import java.util.List;
 
 public record TaskRequest(
         @NotBlank String ownerId, @NotBlank String title,
-        @NotBlank String status, List<String> tags) {
+        @NotBlank @StatusValidator String status, List<String> tags) {
 }
