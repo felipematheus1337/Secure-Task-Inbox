@@ -3,8 +3,9 @@ package com.taskinbox.v1.infra.dtos;
 import com.taskinbox.v1.domain.model.enumerations.Status;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 @Component
 public class StatusTaskValidator implements ConstraintValidator<StatusValidator, String> {
@@ -12,10 +13,11 @@ public class StatusTaskValidator implements ConstraintValidator<StatusValidator,
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
-        if (Status.valueOf(value).getStatus().isBlank()) {
+        if (value == null || value.isBlank()) {
             return false;
         }
 
-        return true;
+       return Arrays.stream(Status.values())
+               .anyMatch(status -> status.name().equals(value));
     }
 }
