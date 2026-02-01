@@ -24,7 +24,8 @@ public class TasksController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<TaskResponse> createTask(@Valid @RequestBody TaskRequest request) {
+    public ResponseEntity<TaskResponse> createTask(@RequestHeader(name = "X-Correlation-Id") String correlationId,
+            @Valid @RequestBody TaskRequest request) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(request));
 
@@ -33,7 +34,7 @@ public class TasksController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<List<TaskResponse>> list() {
+    public ResponseEntity<List<TaskResponse>> list(@RequestHeader(name = "X-Correlation-Id") String correlationId) {
 
         return ResponseEntity.ok(service.list());
 
@@ -42,7 +43,7 @@ public class TasksController {
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<Void> update(@PathVariable String id,
+    public ResponseEntity<Void> update(@RequestHeader(name = "X-Correlation-Id") String correlationId, @PathVariable String id,
                                        @RequestParam("status") String status) {
 
         service.update(id, status);

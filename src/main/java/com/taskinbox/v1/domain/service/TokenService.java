@@ -5,6 +5,7 @@ import com.taskinbox.v1.infra.dtos.LoginRequest;
 import com.taskinbox.v1.infra.dtos.LoginResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -16,6 +17,7 @@ import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
+@Async
 public class TokenService {
 
     private final JwtEncoder jwtEncoder;
