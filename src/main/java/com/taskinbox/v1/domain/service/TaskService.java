@@ -6,6 +6,7 @@ import com.taskinbox.v1.domain.repo.TaskRepository;
 import com.taskinbox.v1.infra.dtos.TaskRequest;
 import com.taskinbox.v1.infra.dtos.TaskResponse;
 import com.taskinbox.v1.mapper.TaskMapper;
+import com.taskinbox.v1.support.errors.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +46,7 @@ public class TaskService {
     public void update(String id, String status) {
 
         Task task = taskRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new BusinessException("Task not found."));
 
         task.setStatus(Status.valueOf(status));
 
