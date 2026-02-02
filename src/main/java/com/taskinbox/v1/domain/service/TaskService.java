@@ -9,6 +9,7 @@ import com.taskinbox.v1.mapper.TaskMapper;
 import com.taskinbox.v1.support.errors.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Async
 public class TaskService {
 
     private final TaskRepository taskRepository;

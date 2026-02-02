@@ -7,29 +7,84 @@ spring:
       uri: mongodb://admin:admin@localhost:27017/appdb?authSource=admin
       database: appdb
 
+  cloud:
+    function:
+      definition: taskCreatedConsumer;taskStatusUpdatedConsumer
+
+    stream:
+      defaultBinder: kafka
+
+      bindings:
+
+        # ---------- OUTPUTS ----------
+        taskCreated-out-0:
+          destination: task.created.v1
+          contentType: application/json
+          producer:
+            useNativeEncoding: true
+
+        taskStatusUpdated-out-0:
+          destination: task.status-updated.v1
+          contentType: application/json
+          producer:
+            useNativeEncoding: true
+
+        # ---------- INPUTS ----------
+        taskCreated-in-0:
+          destination: task.created.v1
+          group: app-group
+          contentType: application/json
+          consumer:
+            maxAttempts: 1
+
+        taskStatusUpdated-in-0:
+          destination: task.status-updated.v1
+          group: app-group
+          contentType: application/json
+          consumer:
+            maxAttempts: 1
+
+      # ====== KAFKA BINDER (parte "física") ======
+      kafka:
+        binder:
+          brokers: localhost:9092
+
+          producerProperties:
+            retries: 243232
+            batch.size: 1
+            delivery.timeout.ms: 1200000
+
+            enable.idempotence: true
+            acks: all
+            max.in.flight.requests.per.connection: 5
+
+          consumerProperties:
+            auto.offset.reset: earliest
+
+        default:
+          producer:
+            sync: true
+
+        bindings:
+
+          taskCreated-in-0:
+            consumer:
+              enableDlq: true
+              dlqName: task-created-error-v1
+
+          taskStatusUpdated-in-0:
+            consumer:
+              enableDlq: true
+              dlqName: task-status-updated-error-v1
+
 server:
   port: 8085
-
-
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: app-group
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-
 
 jwt:
   public:
     key: classpath:app.pub
   private:
     key: classpath:app.key
-
-
 
 async-config:
   threadPoolSize: 40
